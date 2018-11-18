@@ -1,0 +1,3 @@
+rootProject.name = 'splitta'
+
+include ':app'
