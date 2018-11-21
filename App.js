@@ -2,23 +2,25 @@ import React from 'react';
 import {StackNavigator} from 'react-navigation';
 import {Root} from 'native-base';
 import Home from './src/screens/Home';
-import Menu from './src/screens/Menu';
+import MenuContainer from './src/containers/MenuContainer';
+import { DrawerNavigator } from "react-navigation";
+import SideBar from './src/components/SideBar';
+import { Provider } from './src/context';
 
-const App = StackNavigator(
+const App = DrawerNavigator(
   {
-    Home: {screen: Home},
-    Menu: {screen: Menu},
+    MenuContainer: { screen: MenuContainer },
+    Home: { screen: Home }
   },
   {
-    initialRouteName: 'Home',
-    headerMode: 'none',
-    mode: 'modal',
-
-  },
+    contentComponent: props => <SideBar {...props} />
+  }
 );
 
 export default () => (
-  <Root>
-    <App/>
-  </Root>
+  <Provider>
+    <Root>
+      <App/>
+    </Root>
+  </Provider>
 );

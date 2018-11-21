@@ -40,19 +40,18 @@ export default class Home extends Component<Props> {
   render() {
     return (
       <Container style={styles.container}>
-        <Title style={{color:'#b3cccc', marginBottom: 10}}> Skanna QR-koden på bordet </Title>
-          <Footer >
-            <FooterTab>
-            <Button success onPress={()=>{
-                this.props.navigation.navigate('Menu',
+      <Title style={{color:'blue', marginTop: 20}}> SPLITTA</Title>
+        <Body>
+          <Image resizeMode='contain' source={require('../assets/qr.png')} style={{width: 200}}></Image>
+          <Title style={{color:'#b3cccc', marginBottom: 10}}> Skanna QR-koden på bordet </Title>
+          <Button block success onPress={()=>{
+                this.props.navigation.navigate('MenuContainer',
                     {'QR': {id: 1}}
                 );
             }}>
             <Icon style={{color: 'white'}} name='camera' />
-            <Text style={styles.text}>SKANNA</Text>
           </Button>
-            </FooterTab>
-          </Footer>
+        </Body>
       </Container>
     );
   }

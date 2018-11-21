@@ -9,6 +9,9 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Alert, Linking, Image} from 'react-native';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem } from 'native-base';
+import Article from '../components/Article';
+
+import { Consumer } from '../context';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -37,58 +40,55 @@ export default class Home extends Component<Props> {
     let url = `swish://payment?data=${encodeURIComponent(JSON.stringify(payload))}`
     Linking.openURL(url);
   };
+  renderArticles = () => {
+    let favorites = this.props.articles.map(article => (
+      <Article key={article.name} name={article.name} price={article.price} ingredients={article.ingredients}></Article>
+    ));
+    return favorites;
+  };
+  
   render() {
     return (
-      <Container>
-          <Header>
-            <Left>
-              <Button transparent>
-                <Icon name='menu' />
-              </Button>
-            </Left>
-            <Body>
-              <Title>PIZZERIA HAWAII {this.props.navigation.getParam('QR').id}</Title>
-            </Body>
-            <Right>
-            <Button transparent>
-              <Icon name='camera' />
-            </Button>
-          </Right>
-          </Header>
-
-        <Content>
-          <Card>
-            <CardItem cardBody>
-            <Image source={{
-    uri: 'https://facebook.github.io/react/logo-og.png',
-    cache: 'only-if-cached',
-  }} style={{height: 200, width: null, flex: 1}}/>
-            </CardItem>
-            <CardItem>
+      <Consumer>
+      {(value) => {
+        return (<Container>
+            <Header>
               <Left>
-              <Text>Hawaii</Text>
-                  <Text note>85:-</Text>
-              </Left>
-              {/* <Body>
-                <Button transparent>
-                  <Icon active name="chatbubbles" />
-                  <Text>4 Comments</Text>
+                <Button transparent onPress={() => {
+                  value.dispatch({type:'ADD',payload:{order: {order_name:'12345', cost: 20}}});
+                  // this.props.navigation.navigate("DrawerOpen")
+                }}>
+                  <Icon name='menu' />
                 </Button>
+              </Left>
+              <Body>
+                <Title>PIZZERIA HAWAII {this.props.navigation.getParam('QR') ? this.props.navigation.getParam('QR').id : ""}</Title>
               </Body>
               <Right>
-                <Text>11h ago</Text>
-              </Right> */}
+              <Button transparent>
+                <Icon name='exit' onPress={() => {this.props.navigation.navigate("Home")}} />
+              </Button>
+            </Right>
+            </Header>
+
+          <Content>
+            <Card>
+            <CardItem header bordered>
+              <Text style={{color: 'grey', fontSize: 20}}>Pizzor</Text>
             </CardItem>
-          </Card>
-        </Content>
-          <Footer>
-            <FooterTab>
-            <Button full success onPress={()=>{this.openSwish();}}>
-            <Text style={styles.text}>BETALA</Text>
-          </Button>
-            </FooterTab>
-          </Footer>
-      </Container>
+            {this.renderArticles()}
+            </Card>
+          </Content>
+            <Footer>
+              <FooterTab>
+              <Button full success onPress={()=>{this.openSwish();}}>
+              <Text style={styles.text}>BETALA {value.total}</Text>
+            </Button>
+              </FooterTab>
+            </Footer>
+        </Container>)
+      }}
+      </Consumer>
     );
   }
 }
