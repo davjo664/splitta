@@ -9,9 +9,8 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Alert, Linking, Image} from 'react-native';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem } from 'native-base';
-import Article from '../components/Article';
+import OrderedArticle from '../components/OrderedArticle';
 
-import { DrawerActions } from 'react-navigation';
 import { Consumer } from '../context';
 
 const instructions = Platform.select({
@@ -22,10 +21,29 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-export default class MenuScreen extends Component<Props> {
-  renderArticles = (articles) => {
-    let favorites = articles.map(article => (
-      <Article key={article.name} name={article.name} price={article.price} ingredients={article.ingredients}></Article>
+export default class PayScreen extends Component<Props> {
+  openSwish = () => {
+    let payload = {
+      version : 1,
+      payee : {
+      value : "0707713338"
+      },
+      amount : {
+      value : 200
+      },
+      message : {
+      value : "Hälsningar Bo \"the King\" Ek",
+      editable : true
+      }
+    };
+
+    let encodedPayload = encodeURIComponent(JSON.stringify(payload));
+    let url = 'swish://payment?data='+encodedPayload;
+    Linking.openURL(url);
+  };
+  renderArticles = (orders) => {
+    let favorites = orders.map(order => (
+      <OrderedArticle key={order.name} name={order.name} price={order.cost} ></OrderedArticle>
     ));
     return favorites;
   };
@@ -38,33 +56,25 @@ export default class MenuScreen extends Component<Props> {
             <Header>
               <Left>
                 <Button transparent onPress={() => {
-                  this.props.navigation.dispatch(DrawerActions.toggleDrawer());
+                  this.props.navigation.navigate('MenuContainer')
                 }}>
-                  <Icon name='menu' />
+                  <Icon name='md-arrow-round-back' />
                 </Button>
               </Left>
               <Body>
-                <Title> PIZZERIA HAWAII {this.props.navigation.getParam('QR') ? this.props.navigation.getParam('QR').id : ""}</Title>
+                <Title> BESTÄLLNINGAR {this.props.navigation.getParam('QR') ? this.props.navigation.getParam('QR').id : ""}</Title>
               </Body>
-              <Right>
-              <Button transparent>
-                <Icon name='exit' onPress={() => {this.props.navigation.navigate("Home")}} />
-              </Button>
-            </Right>
             </Header>
 
           <Content>
             <Card>
-            <CardItem header bordered>
-              <Text style={{color: 'grey', fontSize: 20}}>{value.articlesTitle}</Text>
-            </CardItem>
-            {this.renderArticles(value.articles)}
+            {this.renderArticles(value.orders)}
             </Card>
           </Content>
             <Footer>
               <FooterTab>
-              <Button full success onPress={()=>{this.props.navigation.navigate('PayContainer')}}>
-              <Text style={styles.text}>BETALA {value.total ? value.total : ""}</Text>
+              <Button full success onPress={()=>{this.openSwish();}}>
+              <Text style={styles.text}>BETALA {value.total}</Text>
             </Button>
               </FooterTab>
             </Footer>

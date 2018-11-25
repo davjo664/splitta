@@ -19,24 +19,6 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class Home extends Component<Props> {
-  openSwish = () => {
-    let payload = {
-      version : 1,
-      payee : {
-      value : "0707713338"
-      },
-      amount : {
-      value : 200
-      },
-      message : {
-      value : "Hälsningar Bo \"the King\" Ek",
-      editable : true
-      }
-    }
-
-    let url = `swish://payment?data=${encodeURIComponent(JSON.stringify(payload))}`
-    Linking.openURL(url);
-  };
   render() {
     return (
       <Container style={styles.container}>
