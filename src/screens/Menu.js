@@ -44,7 +44,7 @@ export default class MenuScreen extends Component<Props> {
                 </Button>
               </Left>
               <Body>
-                <Title> PIZZERIA HAWAII {this.props.navigation.getParam('QR') ? this.props.navigation.getParam('QR').id : ""}</Title>
+                <Title> {this.props.navigation.getParam('QR') ? this.props.navigation.getParam('QR').restaurant : ""}</Title>
               </Body>
               <Right>
               <Button transparent>
