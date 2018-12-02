@@ -22,14 +22,14 @@ export default class Home extends Component<Props> {
   render() {
     return (
       <Container style={styles.container}>
-      <Title style={{color:'blue', marginTop: 20}}> SPLITTA</Title>
+        <Image resizeMode='contain' source={require('../assets/logo_text.png')} style={{width: 200}}></Image>
         <Body>
-          <Image resizeMode='contain' source={require('../assets/qr.png')} style={{width: 200}}></Image>
-          <Title style={{color:'#b3cccc', marginBottom: 10}}> Skanna QR-koden på bordet </Title>
-          <Button block success onPress={()=>{
-                this.props.navigation.navigate('Scan');
+        <Image resizeMode='contain' source={require('../assets/logo_no_text.png')} style={{width: 300, height:300}}></Image>
+          <Title style={{color:'white', marginBottom: 10}}> Skanna QR-koden på bordet </Title>
+          <Button block style={{backgroundColor:'#fcf49b'}} onPress={()=>{
+                this.props.navigation.navigate('MenuContainer');
             }}>
-            <Icon style={{color: 'white'}} name='camera' />
+            <Icon style={{color: '#163140'}} name='camera' />
           </Button>
         </Body>
       </Container>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f5f5',
+    backgroundColor: '#163140',
   },
   text: {
     color: '#FFF',

@@ -12,16 +12,14 @@ export default class Article extends Component<Props> {
   renderRemoveButton(value) {
     if (this.state.count) {
       return (
-        <Content>
           <Button transparent onPress={()=>{
-            value.dispatch({type:'REMOVE',payload:{name:this.props.name}});
+            value.dispatchArticle({type:'REMOVE',payload:{name:this.props.name}});
             this.setState(previousState => (
               { count: previousState.count-1 }
             ))
           }}>
-            <Icon name="md-remove-circle" style={{color: 'red', fontSize: 40}} />
+            <Icon name="md-remove" style={{color: '#163140', fontSize: 40}} />
           </Button>
-        </Content>
       ) 
     } else {
       return null
@@ -34,23 +32,23 @@ export default class Article extends Component<Props> {
         {(value) => {
           return (
             <Content>
-                <CardItem bordered>
+                <CardItem >
                 <Body>
                 <Text>{this.props.name}</Text>
                 <Text note>{this.props.ingredients}</Text>
                 <Text>{this.props.price}:-</Text>
                 </Body>
-                <Right style={{flexDirection: 'row', justifyContent:'flex-end'}}>
-                {this.renderRemoveButton(value)}
-                <Title style={{color:'grey', fontSize:30, flex:1, justifyContent:'center', alignItems:'center'}}> {this.state.count}</Title>
-                <Button transparent onPress={()=>{
-                  value.dispatch({type:'ADD',payload:{name:this.props.name, cost: this.props.price, ingredients: this.props.ingredients}});
-                  this.setState(previousState => (
-                    { count: previousState.count+1 }
-                  ))
-                }}>
-                <Icon name="md-add-circle" style={{color: 'green', fontSize: 40}} />
-                </Button>
+                <Right style={{flexDirection: 'row', flex:1, justifyContent:'flex-end'}}>
+                  {this.renderRemoveButton(value)}
+                  <Text style={{color:'grey', fontSize:34, marginLeft:10, marginRight:10}}> {this.state.count}</Text>
+                  <Button transparent onPress={()=>{
+                    value.dispatchArticle({type:'ADD',payload:{name:this.props.name, cost: this.props.price, ingredients: this.props.ingredients}});
+                    this.setState(previousState => (
+                      { count: previousState.count+1 }
+                    ))
+                  }}>
+                  <Icon name="md-add" style={{color: '#163140', fontSize: 40}} />
+                  </Button>
                 </Right>
                 </CardItem>
             </Content>

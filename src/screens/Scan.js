@@ -9,10 +9,13 @@ import {
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem } from 'native-base';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
+import { Consumer } from '../context';
+
 export default class Scan extends Component {
-  onSuccess(e) {
+  onSuccess(e, value) {
     let QR = e.data;
     let json = JSON.parse(QR);
+    value.dispatchRestaurant({action: 'SET', payload: json});
     this.props.navigation.navigate('MenuContainer',
         {'QR': {restaurant: json.restaurant}}
     );
@@ -20,24 +23,35 @@ export default class Scan extends Component {
 
   render() {
     return (
-      <QRCodeScanner
-        onRead={this.onSuccess.bind(this)}
-        // topContent={
-        //     <Container style={{marginLeft:0}}>
-        //         <Button transparent onPress={() => {
-        //             this.props.navigation.navigate('Home')
-        //         }}>
-        //             <Icon name='md-arrow-round-back' />
-        //             </Button>
-        //     </Container>
-        // }
-        cameraStyle={styles.cameraContainer}
-        topViewStyle= {styles.zeroContainer}
-        bottomViewStyle= {styles.zeroContainer}
-        markerStyle={{borderColor:'rgba(255, 255, 255, 0.3)', borderRadius: 20, backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
-        showMarker={true}
-      />
-    );
+      <Consumer>
+      {(value) => {
+        return (
+          <QRCodeScanner
+            onRead={(e) => {
+              let QR = e.data;
+              let json = JSON.parse(QR);
+              value.dispatchRestaurant({type: 'SET', payload: json});
+              this.props.navigation.navigate('MenuContainer');
+            }}
+            // topContent={
+            //     <Container style={{marginLeft:0}}>
+            //         <Button transparent onPress={() => {
+            //             this.props.navigation.navigate('Home')
+            //         }}>
+            //             <Icon name='md-arrow-round-back' />
+            //             </Button>
+            //     </Container>
+            // }
+            cameraStyle={styles.cameraContainer}
+            topViewStyle= {styles.zeroContainer}
+            bottomViewStyle= {styles.zeroContainer}
+            markerStyle={{borderColor:'rgba(255, 255, 255, 0.3)', borderRadius: 20, backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
+            showMarker={true}
+          />
+        )
+      }}
+      </Consumer>
+    )
   }
 }
 

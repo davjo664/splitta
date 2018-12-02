@@ -52,29 +52,32 @@ export default class PayScreen extends Component<Props> {
     return (
       <Consumer>
       {(value) => {
-        return (<Container>
-            <Header>
+        return (<Container style={{backgroundColor:'#163140'}}>
+            <Header style={{backgroundColor:'#163140'}}>
               <Left>
                 <Button transparent onPress={() => {
                   this.props.navigation.navigate('MenuContainer')
                 }}>
-                  <Icon name='md-arrow-round-back' />
+                  <Icon style={{color:'#fcf49b'}} name='md-arrow-round-back' />
                 </Button>
               </Left>
               <Body>
-                <Title> BESTÄLLNINGAR {this.props.navigation.getParam('QR') ? this.props.navigation.getParam('QR').id : ""}</Title>
+                <Title> DIN BESTÄLLNING </Title>
               </Body>
             </Header>
 
           <Content>
             <Card>
             {this.renderArticles(value.orders)}
+              <CardItem>
+                <Title style={{color: '#163140', fontSize:24}}>Totalt: {value.total} :-</Title>
+              </CardItem>
             </Card>
           </Content>
             <Footer>
               <FooterTab>
-              <Button full success onPress={()=>{this.openSwish();}}>
-              <Text style={styles.text}>BETALA {value.total}</Text>
+              <Button full style={{backgroundColor:'#fcf49b'}} onPress={()=>{this.openSwish();}}>
+              <Text style={styles.text}>BETALA </Text>
             </Button>
               </FooterTab>
             </Footer>
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   text: {
-    color: '#FFF',
-    fontSize: 12
+    color: '#163140',
+    fontSize: 14
   },
 });

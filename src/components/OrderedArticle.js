@@ -15,16 +15,17 @@ export default class Article extends Component<Props> {
           return (
             <Content>
                 <ListItem bordered>
-                <Body>
+                <Left>
                 <Text>{this.props.name}</Text>
+                </Left>
+                <Body>
                 <Text>{this.props.price}:-</Text>
                 </Body>
                 <Right style={{flexDirection: 'row', justifyContent:'flex-end'}}>
                 <Button iconLeft transparent danger onPress={()=>{
-                    value.dispatch({type:'REMOVE',payload:{name:this.props.name}});
+                    value.dispatchArticle({type:'REMOVE',payload:{name:this.props.name}});
                 }}>
-                <Icon name="md-trash" style={{fontSize: 40}} />
-                <Text style={{color:'black'}}>Ta bort</Text>
+                <Icon name="md-trash" style={{fontSize: 40, color: '#163140'}} />
                 </Button>
                 </Right>
                 </ListItem>

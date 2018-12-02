@@ -11,8 +11,9 @@ export default class SideBar extends React.Component {
       <Consumer>
       {(value) => {
         return (
-          <Container>
+          <Container style={{backgroundColor:'#163140'}}>
             <Content>
+            <Image resizeMode='contain' source={require('../assets/logo.png')} style={{width:'100%', height:140, marginTop:20}} ></Image>
               {/* <Image
                 source={{
                   uri: "https://github.com/GeekyAnts/NativeBase-KitchenSink/raw/react-navigation/img/drawer-cover.png"
@@ -36,12 +37,13 @@ export default class SideBar extends React.Component {
                 renderRow={data => {
                   return (
                     <ListItem
+                      noIndent
                       button
                       onPress={() => {
                         this.props.navigation.dispatch(DrawerActions.toggleDrawer());
-                        value.dispatch({type: 'SWITCH', payload: {name: data}})
+                        value.dispatchArticle({type: 'SWITCH', payload: {name: data}})
                       }}>
-                      <Text>{data}</Text>
+                      <Text style={{color: 'white'}}>{data}</Text>
                     </ListItem>
                   );
                 }}

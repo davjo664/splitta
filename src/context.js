@@ -8,7 +8,7 @@ const articles = {
     "Pasta": [{name:'Carbonara', price: 85, ingredients: 'Bacon, grädde, parmesanost'}]
 }
 
-const reducer = (state, action) => {
+const reducerArticle = (state, action) => {
     switch(action.type) {
         case 'ADD': 
         return {
@@ -41,13 +41,27 @@ const reducer = (state, action) => {
     }
 }
 
+const reducerRestaurant = (state, action) => {
+    switch(action.type) {
+        case 'SET': 
+        return {
+            ...state,
+            restaurant: action.payload,
+        }
+        default:
+            return state;
+    }
+}
+
 export class Provider extends Component {
     state = {
         articlesTitle: "Pizza",
         articles: articles["Pizza"],
         orders: [],
         total: 0,
-        dispatch: (action) => this.setState((state) => reducer(state, action))
+        restaurant: {},
+        dispatchArticle: (action) => this.setState((state) => reducerArticle(state, action)),
+        dispatchRestaurant: (action) => this.setState((state) => reducerRestaurant(state, action))
     }
 
     render() {

@@ -29,26 +29,43 @@ export default class MenuScreen extends Component<Props> {
     ));
     return favorites;
   };
+
+  renderCheckoutButton = (value) => {
+    if(value.total) {
+      return (
+        <Footer>
+          <FooterTab>
+            <Button full style={{backgroundColor:'#fcf49b'}} onPress={()=>{this.props.navigation.navigate('PayContainer')}}>
+              <Text style={styles.text}>TILL KASSAN </Text>
+              <Text style={{color:'grey', fontSize:16, marginTop:4}} >{value.total} :-</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      )
+    } else {
+      return null;
+    }
+  };
   
   render() {
     return (
       <Consumer>
       {(value) => {
-        return (<Container>
-            <Header>
+        return (<Container style={{backgroundColor:'#163140'}}>
+            <Header style={{backgroundColor:'#163140'}}>
               <Left>
                 <Button transparent onPress={() => {
                   this.props.navigation.dispatch(DrawerActions.toggleDrawer());
                 }}>
-                  <Icon name='menu' />
+                  <Icon style={{color: '#fcf49b'}} name='menu' />
                 </Button>
               </Left>
               <Body>
-                <Title> {this.props.navigation.getParam('QR') ? this.props.navigation.getParam('QR').restaurant : ""}</Title>
+                <Title style={{color: 'white'}}> {value.restaurant.name ? value.restaurant.name : "Pizzeria Unknown"}</Title>
               </Body>
               <Right>
               <Button transparent>
-                <Icon name='exit' onPress={() => {this.props.navigation.navigate("Home")}} />
+                <Icon style={{color: '#fcf49b'}} name='exit' onPress={() => {this.props.navigation.navigate("Home")}} />
               </Button>
             </Right>
             </Header>
@@ -56,18 +73,12 @@ export default class MenuScreen extends Component<Props> {
           <Content>
             <Card>
             <CardItem header bordered>
-              <Text style={{color: 'grey', fontSize: 20}}>{value.articlesTitle}</Text>
+              <Text style={{color: '#163140', fontSize: 20}}>{value.articlesTitle}</Text>
             </CardItem>
             {this.renderArticles(value.articles)}
             </Card>
           </Content>
-            <Footer>
-              <FooterTab>
-              <Button full success onPress={()=>{this.props.navigation.navigate('PayContainer')}}>
-              <Text style={styles.text}>BETALA {value.total ? value.total : ""}</Text>
-            </Button>
-              </FooterTab>
-            </Footer>
+          {this.renderCheckoutButton(value)}
         </Container>)
       }}
       </Consumer>
@@ -83,7 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   text: {
-    color: '#FFF',
-    fontSize: 12
+    color: '#163140',
+    fontSize: 14
   },
 });
