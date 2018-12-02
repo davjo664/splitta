@@ -43,7 +43,7 @@ export default class PayScreen extends Component<Props> {
   };
   renderArticles = (orders) => {
     let favorites = orders.map(order => (
-      <OrderedArticle key={order.name} name={order.name} price={order.cost} ></OrderedArticle>
+      <OrderedArticle key={order.name} order={order} ></OrderedArticle>
     ));
     return favorites;
   };
@@ -70,13 +70,13 @@ export default class PayScreen extends Component<Props> {
             <Card>
             {this.renderArticles(value.orders)}
               <CardItem>
-                <Title style={{color: '#163140', fontSize:24}}>Totalt: {value.total} :-</Title>
+                <Title style={{color: '#163140', fontSize:24}}>Totalt: {value.total}:-</Title>
               </CardItem>
             </Card>
           </Content>
             <Footer>
               <FooterTab>
-              <Button full style={{backgroundColor:'#fcf49b'}} onPress={()=>{this.openSwish();}}>
+              <Button full style={{backgroundColor:'#fcf49b'}} onPress={()=>{ if(value.total) this.openSwish();}}>
               <Text style={styles.text}>BETALA </Text>
             </Button>
               </FooterTab>

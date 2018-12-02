@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 
 export const Context = React.createContext();
 
@@ -11,14 +12,29 @@ const articles = {
 const reducerArticle = (state, action) => {
     switch(action.type) {
         case 'ADD': 
+        let orders = state.orders;
+        let found = false;
+        orders.map((order) => {
+            if (order.name === action.payload.name) {
+                order.count++;
+                found = true;
+            }
+        })
+
+        if (!found) {
+            let countField = {count: 1};
+            action.payload = {...action.payload, ...countField};
+            orders = [...orders, action.payload]
+        }
+
         return {
             ...state,
-            orders: [...state.orders, action.payload],
+            orders: orders,
             total: state.total+action.payload.cost
         }
         case 'REMOVE': 
         let total = state.total;
-        let orders = state.orders.filter((order) => {
+        orders = state.orders.filter((order) => {
             if(order.name === action.payload.name) {
                 total = total-order.cost;
                 return false;

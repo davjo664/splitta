@@ -27,7 +27,7 @@ export default class Home extends Component<Props> {
         <Image resizeMode='contain' source={require('../assets/logo_no_text.png')} style={{width: 300, height:300}}></Image>
           <Title style={{color:'white', marginBottom: 10}}> Skanna QR-koden på bordet </Title>
           <Button block style={{backgroundColor:'#fcf49b'}} onPress={()=>{
-                this.props.navigation.navigate('MenuContainer');
+                this.props.navigation.navigate('Scan');
             }}>
             <Icon style={{color: '#163140'}} name='camera' />
           </Button>

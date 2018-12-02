@@ -1,13 +1,24 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Alert, Linking, Image} from 'react-native';
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem } from 'native-base';
-import { Consumer } from '../context';
+import { Consumer, Context } from '../context';
 
 export default class Article extends Component<Props> {
+  static contextType = Context;
   constructor(props) {
     super(props);
     this.state = { count: 0 };
+    
   }
+  componentDidMount() {
+    this.context.orders.forEach(order => {
+      if (order.name === this.props.name) {
+        this.setState(previousState => (
+          { count: order.count }
+        ))
+      }
+    });
+ }
 
   renderRemoveButton(value) {
     if (this.state.count) {
